@@ -1,5 +1,7 @@
 # a-star-algorithm
 
-Opened list: binary heap
+Quick draft to expiriment data structure algorithms.
+
+Opened list: Binary heap
 
 Closed list: Hash table
