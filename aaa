@@ -1,0 +1,89 @@
+static bool is_on_grid(coords_t coords, int *lines_size, int nb_lines)
+{
+    /* bool left = coords.x >= 0;
+    bool right = coords.x < lines_size[coords.y];
+    bool up = coords.y >= 0;
+    bool down = coords.y < nb_lines; */
+
+    if (coords.x >= 0 && coords.x < lines_size[coords.y] && coords.y >= 0 && coords.y < nb_lines)
+        return true;
+    return false;
+}
+    static coords_t neighbor_coords[] = {
+        {-1, -1}, // up left
+        {0, -1}, // up
+        {1, -1}, // up right
+        {1, 0}, // right
+        {1, 1}, // down right
+        {0, 1}, // down
+        {-1, 1}, // down left
+        {-1, 0} // left
+    };
+    static int neighbor_size = 8;
+
+    for (int i = 0; i < neighbor_size; i++) {
+        coords_t coords = {x + neighbor_coords[i].x, y + neighbor_coords[i].y};
+        if (is_on_grid(coords, map->lines_size, map->nb_lines) && is_space(map->colider_map, coords) && is_coord_on_chained_list(*close_head, coords) == false) {
+            get_neighbor(map, open_head, current, coords);
+        }
+    }
+
+
+
+    /////
+
+
+
+    coords_t coord_up_left = {x - 1, y - 1};
+    coords_t coord_up = {x, y - 1};
+    coords_t coord_up_right = {x + 1, y - 1};
+
+    coords_t coord_down_left = {x - 1, y + 1};
+    coords_t coord_down = {x, y + 1};
+    coords_t coord_down_right = {x + 1, y + 1};
+
+    coords_t coord_right = {x + 1, y};
+    coords_t coord_left = {x - 1, y};
+
+    //printf("START get_near_nodes\n");
+
+    // UP
+    if (coord_up.y >= 0 && coord_up.x < map->lines_size[coord_up.y] && is_space(map->colider_map, coord_up) &&
+    is_coord_on_chained_list(*close_head, coord_up) == false) {
+        get_neighbor(map, open_head, current, coord_up);
+    }
+    // DOWN
+    if (coord_down.y < map->nb_lines && coord_down.x < map->lines_size[coord_down.y] && is_space(map->colider_map, coord_down) &&
+    is_coord_on_chained_list(*close_head, coord_down) == false) {
+        get_neighbor(map, open_head, current, coord_down);
+    }
+    // RIGHT
+    if (coord_right.x < map->lines_size[y] && is_space(map->colider_map, coord_right) &&
+    is_coord_on_chained_list(*close_head, coord_right) == false) {
+        get_neighbor(map, open_head, current, coord_right);
+    }
+    // LEFT
+    if (x - 1 >= 0 && is_space(map->colider_map, coord_left) &&
+    is_coord_on_chained_list(*close_head, coord_left) == false) {
+        get_neighbor(map, open_head, current, coord_left);
+    }
+    // UP LEFT
+    if (coord_up_left.y >= 0 && coord_up_left.x >= 0 && coord_up_left.x < map->lines_size[coord_up_left.y] && is_space(map->colider_map, coord_up_left) &&
+    is_coord_on_chained_list(*close_head, coord_up_left) == false) {
+        get_neighbor(map, open_head, current, coord_up_left);
+    }
+    // UP RIGHT
+    if (coord_up_right.y >= 0 && coord_up_right.x < map->lines_size[coord_up_right.y] && is_space(map->colider_map, coord_up_right) &&
+    is_coord_on_chained_list(*close_head, coord_up_right) == false) {
+        get_neighbor(map, open_head, current, coord_up_right);
+    }
+    // DOWN LEFT
+    if (coord_down_left.y < map->nb_lines && coord_down_left.x < map->lines_size[coord_down_left.y] && coord_down_left.x >= 0 && is_space(map->colider_map, coord_down_left) &&
+    is_coord_on_chained_list(*close_head, coord_down_left) == false) {
+        get_neighbor(map, open_head, current, coord_down_left);
+    }
+    // DOWN RIGHT
+    if (coord_down_right.y < map->nb_lines && coord_down_right.x < map->lines_size[coord_down_right.y] && is_space(map->colider_map, coord_down_right) &&
+    is_coord_on_chained_list(*close_head, coord_down_right) == false) {
+        get_neighbor(map, open_head, current, coord_down_right);
+    }
